@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Задание</title>
+  <style>
+    :root{
+      --bg1:#0b1020;
+      --bg2:#160b2d;
+      --card: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.16);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --shadow: 0 24px 80px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 20%, rgba(255,122,182,.18), transparent 60%),
+        radial-gradient(1000px 700px at 80% 30%, rgba(120,170,255,.18), transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      padding:24px;
+    }
+    .wrap{
+      width:min(720px, 100%);
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+    .card:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(600px 200px at 20% 0%, rgba(255,255,255,.16), transparent 60%);
+      pointer-events:none;
+    }
+    .badge{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:8px 12px;
+      border:1px solid var(--stroke);
+      border-radius:999px;
+      color:var(--muted);
+      font-size:13px;
+      letter-spacing:.2px;
+      position:relative;
+      z-index:1;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background:linear-gradient(135deg,#ff7ab6,#78aaff);
+      box-shadow: 0 0 0 4px rgba(255,122,182,.12);
+    }
+    h1{
+      margin:14px 0 8px;
+      font-size: clamp(28px, 4vw, 38px);
+      line-height:1.1;
+      position:relative;
+      z-index:1;
+    }
+    p{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.55;
+      position:relative;
+      z-index:1;
+    }
+    .hint{
+      margin-top:10px;
+      font-size:13px;
+      color:rgba(255,255,255,.55);
+      position:relative;
+      z-index:1;
+    }
+    .form{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:18px;
+      position:relative;
+      z-index:1;
+    }
+    .input{
+      flex:1 1 260px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+    }
+    .input span{
+      color:rgba(255,255,255,.55);
+      font-size:14px;
+      user-select:none;
+    }
+    input{
+      width:100%;
+      border:none;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+      font-size:16px;
+      padding:6px 0;
+    }
+    input::placeholder{color:rgba(255,255,255,.35)}
+    button{
+      flex:0 0 auto;
+      padding:12px 18px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.22);
+      background: linear-gradient(135deg, rgba(255,122,182,.9), rgba(120,170,255,.9));
+      color:#0b1020;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow: 0 14px 30px rgba(120,170,255,.22);
+      transition: transform .08s ease, filter .12s ease;
+    }
+    button:hover{filter:brightness(1.03)}
+    button:active{transform: translateY(1px) scale(.99)}
+    .msg{
+      margin-top:16px;
+      padding:14px 16px;
+      border-radius:16px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      display:none;
+      position:relative;
+      z-index:1;
+      white-space:pre-line;
+    }
+    .msg.ok{
+      display:block;
+      border-color: rgba(115, 255, 198, .35);
+      background: rgba(115,255,198,.10);
+    }
+    .msg.bad{
+      display:block;
+      border-color: rgba(255, 120, 120, .35);
+      background: rgba(255,120,120,.10);
+    }
+    .footer{
+      margin-top:14px;
+      text-align:center;
+      color:rgba(255,255,255,.35);
+      font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="badge"><span class="dot"></span> Маленькое задание</div>
+      <h1>Введи правильное число</h1>
+      <p>
+        Здесь всё просто: впиши число в поле ниже и нажми «Проверить».
+        Если ответ верный — появится подсказка, куда смотреть дальше.
+      </p>
+
+      <div class="form">
+        <label class="input" for="code">
+          <span>#</span>
+          <input id="code" inputmode="numeric" autocomplete="one-time-code" placeholder="Например: 7" />
+        </label>
+        <button id="check" type="button">Проверить</button>
+      </div>
+
+      <div id="msg" class="msg"></div>
+      <div class="hint">Подсказка: вводится только число (без пробелов и букв).</div>
+    </div>
+
+    <div class="footer">©</div>
+  </div>
+
+  <script>
+    // ВАЖНО: поменяй это число на нужное:
+    const CORRECT_NUMBER = 7;
+
+    const input = document.getElementById('code');
+    const btn = document.getElementById('check');
+    const msg = document.getElementById('msg');
+
+    function show(text, ok){
+      msg.className = 'msg ' + (ok ? 'ok' : 'bad');
+      msg.textContent = text;
+    }
+
+    function normalize(v){
+      return String(v).trim().replace(/[^\d]/g,''); // оставляем только цифры
+    }
+
+    function check(){
+      const v = normalize(input.value);
+      if(!v){
+        show('Впиши число 🙂', false);
+        return;
+      }
+      if(Number(v) === CORRECT_NUMBER){
+        show('✅ Верно!\n\nОтвет: посмотри за телевизором', true);
+      } else {
+        show('❌ Неверно. Попробуй ещё раз.', false);
+      }
+    }
+
+    btn.addEventListener('click', check);
+    input.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') check();
+    });
+  </script>
+</body>
+</html>
