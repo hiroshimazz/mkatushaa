@@ -1,228 +1,326 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Задание</title>
-  <style>
-    :root{
-      --bg1:#0b1020;
-      --bg2:#160b2d;
-      --card: rgba(255,255,255,.08);
-      --stroke: rgba(255,255,255,.16);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.68);
-      --shadow: 0 24px 80px rgba(0,0,0,.45);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 600px at 20% 20%, rgba(255,122,182,.18), transparent 60%),
-        radial-gradient(1000px 700px at 80% 30%, rgba(120,170,255,.18), transparent 55%),
-        linear-gradient(135deg, var(--bg1), var(--bg2));
-      padding:24px;
-    }
-    .wrap{
-      width:min(720px, 100%);
-    }
-    .card{
-      background:var(--card);
-      border:1px solid var(--stroke);
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      padding:28px;
-      position:relative;
-      overflow:hidden;
-      backdrop-filter: blur(10px);
-    }
-    .card:before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: radial-gradient(600px 200px at 20% 0%, rgba(255,255,255,.16), transparent 60%);
-      pointer-events:none;
-    }
-    .badge{
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      padding:8px 12px;
-      border:1px solid var(--stroke);
-      border-radius:999px;
-      color:var(--muted);
-      font-size:13px;
-      letter-spacing:.2px;
-      position:relative;
-      z-index:1;
-    }
-    .dot{
-      width:10px;height:10px;border-radius:50%;
-      background:linear-gradient(135deg,#ff7ab6,#78aaff);
-      box-shadow: 0 0 0 4px rgba(255,122,182,.12);
-    }
-    h1{
-      margin:14px 0 8px;
-      font-size: clamp(28px, 4vw, 38px);
-      line-height:1.1;
-      position:relative;
-      z-index:1;
-    }
-    p{
-      margin:0 0 18px;
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.55;
-      position:relative;
-      z-index:1;
-    }
-    .hint{
-      margin-top:10px;
-      font-size:13px;
-      color:rgba(255,255,255,.55);
-      position:relative;
-      z-index:1;
-    }
-    .form{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:18px;
-      position:relative;
-      z-index:1;
-    }
-    .input{
-      flex:1 1 260px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:12px 14px;
-      border-radius:16px;
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.18);
-    }
-    .input span{
-      color:rgba(255,255,255,.55);
-      font-size:14px;
-      user-select:none;
-    }
-    input{
-      width:100%;
-      border:none;
-      outline:none;
-      background:transparent;
-      color:var(--text);
-      font-size:16px;
-      padding:6px 0;
-    }
-    input::placeholder{color:rgba(255,255,255,.35)}
-    button{
-      flex:0 0 auto;
-      padding:12px 18px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.22);
-      background: linear-gradient(135deg, rgba(255,122,182,.9), rgba(120,170,255,.9));
-      color:#0b1020;
-      font-weight:700;
-      cursor:pointer;
-      box-shadow: 0 14px 30px rgba(120,170,255,.22);
-      transition: transform .08s ease, filter .12s ease;
-    }
-    button:hover{filter:brightness(1.03)}
-    button:active{transform: translateY(1px) scale(.99)}
-    .msg{
-      margin-top:16px;
-      padding:14px 16px;
-      border-radius:16px;
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.18);
-      display:none;
-      position:relative;
-      z-index:1;
-      white-space:pre-line;
-    }
-    .msg.ok{
-      display:block;
-      border-color: rgba(115, 255, 198, .35);
-      background: rgba(115,255,198,.10);
-    }
-    .msg.bad{
-      display:block;
-      border-color: rgba(255, 120, 120, .35);
-      background: rgba(255,120,120,.10);
-    }
-    .footer{
-      margin-top:14px;
-      text-align:center;
-      color:rgba(255,255,255,.35);
-      font-size:12px;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Маленький квест</title>
+
+<style>
+:root{
+  --bg1:#0b1020;
+  --bg2:#1b0b2f;
+  --card: rgba(255,255,255,.085);
+  --stroke: rgba(255,255,255,.18);
+  --text: rgba(255,255,255,.94);
+  --muted: rgba(255,255,255,.70);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(1200px 700px at 15% 20%, rgba(255,122,182,.18), transparent 60%),
+    radial-gradient(900px 650px at 85% 35%, rgba(120,170,255,.18), transparent 55%),
+    linear-gradient(135deg, var(--bg1), var(--bg2));
+  overflow-x:hidden;
+}
+.wrap{width:min(900px,100%)}
+.card{
+  position:relative;
+  overflow:hidden;
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:30px;
+  padding:32px;
+  backdrop-filter: blur(10px);
+  box-shadow:0 30px 90px rgba(0,0,0,.5);
+}
+.card:before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background: radial-gradient(650px 220px at 22% 0%, rgba(255,255,255,.16), transparent 60%);
+  pointer-events:none;
+}
+h1{
+  margin:0 0 14px;
+  font-size: clamp(26px, 4vw, 38px);
+  position:relative;
+  z-index:1;
+}
+.lead{
+  margin:0 0 10px;
+  color:var(--muted);
+  line-height:1.65;
+  position:relative;
+  z-index:1;
+}
+.task{
+  margin-top:18px;
+  padding:18px;
+  border-radius:18px;
+  background: rgba(0,0,0,.2);
+  border:1px solid rgba(255,255,255,.14);
+  white-space:pre-line;
+  line-height:1.7;
+  position:relative;
+  z-index:1;
+}
+.form{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:20px;
+  position:relative;
+  z-index:1;
+}
+.input{
+  flex:1 1 280px;
+  padding:14px;
+  border-radius:16px;
+  border:1px solid var(--stroke);
+  background: rgba(0,0,0,.25);
+}
+input{
+  width:100%;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:white;
+  font-size:16px;
+}
+button{
+  padding:14px 22px;
+  border-radius:16px;
+  border:none;
+  font-weight:800;
+  cursor:pointer;
+  background: linear-gradient(135deg,#ff7ab6,#78aaff);
+  color:#0b1020;
+  transition: transform .15s ease, filter .15s ease;
+  box-shadow: 0 14px 30px rgba(120,170,255,.22);
+}
+button:hover{transform:translateY(-1px); filter:brightness(1.03)}
+button:active{transform:translateY(1px)}
+.msg{
+  margin-top:20px;
+  padding:18px;
+  border-radius:18px;
+  display:none;
+  white-space:pre-line;
+  position:relative;
+  z-index:1;
+}
+.msg.ok{
+  display:block;
+  background: rgba(115,255,198,.12);
+  border:1px solid rgba(115,255,198,.40);
+}
+.msg.bad{
+  display:block;
+  background: rgba(255,120,120,.12);
+  border:1px solid rgba(255,120,120,.40);
+}
+
+/* Плавное красивое появление текста */
+.reveal{
+  animation: reveal .65s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes reveal{
+  from{opacity:0; transform: translateY(10px) scale(.99); filter: blur(2px);}
+  to{opacity:1; transform: translateY(0) scale(1); filter: blur(0);}
+}
+
+/* Аккуратная "встряска" при ошибке */
+.shake{
+  animation: shake .35s ease both;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+
+/* Слой для сердечек */
+#hearts{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:9999;
+}
+
+/* Сердечко-конфетти */
+.heart{
+  position:absolute;
+  left:50%;
+  top:50%;
+  font-size: 18px;
+  opacity:0;
+  transform: translate(-50%,-50%) scale(.8);
+  animation: floatUp 1.9s ease-in forwards;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+}
+@keyframes floatUp{
+  0%   {opacity:0; transform: translate(var(--x), var(--y)) scale(.7) rotate(0deg);}
+  10%  {opacity:1;}
+  100% {opacity:0; transform: translate(calc(var(--x) + var(--dx)), calc(var(--y) - 220px)) scale(1.25) rotate(var(--r));}
+}
+
+/* Небольшая адаптация под reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .reveal, .shake, .heart{animation:none !important;}
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="badge"><span class="dot"></span> Маленькое задание</div>
-      <h1>Введи правильное число</h1>
-      <p>
-        Здесь всё просто: впиши число в поле ниже и нажми «Проверить».
-        Если ответ верный — появится подсказка, куда смотреть дальше.
-      </p>
+<div id="hearts"></div>
 
-      <div class="form">
-        <label class="input" for="code">
-          <span>#</span>
-          <input id="code" inputmode="numeric" autocomplete="one-time-code" placeholder="Например: 7" />
-        </label>
-        <button id="check" type="button">Проверить</button>
-      </div>
+<div class="wrap">
+  <div class="card" id="card">
+    <h1>💌 Финальный шаг</h1>
+    <p class="lead">Осталось совсем немного… Собери число по инструкции ниже и введи его.</p>
 
-      <div id="msg" class="msg"></div>
-      <div class="hint">Подсказка: вводится только число (без пробелов и букв).</div>
+    <div class="task">
+Привет! 💖  
+Ты на верном пути, осталось заняться твоим любимым делом и готово!
+
+Помнишь свой пароль от телефона? Умножь его на пароль от моего телефона.  
+Вспоминай в каком году мы познакомились и ещё раз умножай.  
+Потом то что получилось, умножь это всё на то сколько раз ты мне говорила «Витюшкинс» в Telegram 🥰  
+Ты просто лапочка! Держи в голове это число и умножь на день когда мы начали встречаться 💞  
+Остались последние штрихи! Финальное число умножь на 4 и приплюсуй 659877329306094.
+
+То что у тебя получилось, напиши и нажми «Проверить» ✨
     </div>
 
-    <div class="footer">©</div>
+    <div class="form">
+      <div class="input" id="inputWrap">
+        <input id="code" inputmode="numeric" autocomplete="off" placeholder="Введи финальное число…" />
+      </div>
+      <button id="check" type="button">Проверить</button>
+    </div>
+
+    <div id="msg" class="msg"></div>
   </div>
+</div>
 
-  <script>
-    // ВАЖНО: поменяй это число на нужное:
-    const CORRECT_NUMBER = 7;
+<script>
+const CORRECT_NUMBER = "4944099632065710";
 
-    const input = document.getElementById('code');
-    const btn = document.getElementById('check');
-    const msg = document.getElementById('msg');
+const input = document.getElementById('code');
+const btn = document.getElementById('check');
+const msg = document.getElementById('msg');
+const inputWrap = document.getElementById('inputWrap');
+const heartsLayer = document.getElementById('hearts');
 
-    function show(text, ok){
-      msg.className = 'msg ' + (ok ? 'ok' : 'bad');
-      msg.textContent = text;
+function onlyDigits(v){
+  return String(v).trim().replace(/[^\d]/g,'');
+}
+
+function show(text, ok){
+  msg.className = 'msg ' + (ok ? 'ok reveal' : 'bad reveal');
+  msg.textContent = text;
+}
+
+function shake(){
+  inputWrap.classList.remove('shake');
+  // reflow
+  void inputWrap.offsetWidth;
+  inputWrap.classList.add('shake');
+}
+
+function spawnHearts(count = 26){
+  // запускаем сердечки из центра экрана с небольшим разбросом
+  const emojis = ["💖","💕","💘","💗","💝","❤️"];
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+
+  for(let i=0;i<count;i++){
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+
+    // стартовая позиция относительно центра
+    const x = (Math.random()*60 - 30);   // px
+    const y = (Math.random()*40 - 20);   // px
+    const dx = (Math.random()*240 - 120) + "px";
+    const r = (Math.random()*220 - 110) + "deg";
+
+    h.style.left = cx + "px";
+    h.style.top  = cy + "px";
+    h.style.setProperty('--x', x + "px");
+    h.style.setProperty('--y', y + "px");
+    h.style.setProperty('--dx', dx);
+    h.style.setProperty('--r', r);
+
+    // чуть разный размер
+    const size = 16 + Math.random()*18;
+    h.style.fontSize = size + "px";
+    h.style.animationDuration = (1.5 + Math.random()*0.7) + "s";
+
+    heartsLayer.appendChild(h);
+    // удаляем после анимации
+    setTimeout(() => h.remove(), 2600);
+  }
+}
+
+let alreadyCelebrated = false;
+
+function check(){
+  const v = onlyDigits(input.value);
+
+  if(!v){
+    show('Впиши число 😊', false);
+    shake();
+    return;
+  }
+
+  if(v === CORRECT_NUMBER){
+    show(
+`💖 Ты большая умничка и правильно всё посчитала!
+Я в тебе и не сомневался, мой любимый пупсик 🥰
+
+Правильный ответ: 4944099632065710
+
+Тебе эти цифры ни о чем не говорят? 👀
+А если расставить запятые вот так:
+49.440996, 32.065710 📍
+
+Я думаю, ты поняла что это такое и куда это нужно вставлять 😉✨
+
+Следующий конверт находится за телевизором 📺💌
+Ты у меня самая лучшая ❤️`,
+      true
+    );
+
+    if(!alreadyCelebrated){
+      alreadyCelebrated = true;
+      spawnHearts(34);
+      // ещё небольшая волна сердечек через мгновение
+      setTimeout(() => spawnHearts(22), 450);
+      setTimeout(() => spawnHearts(16), 900);
     }
+  } else {
+    show('❌ Немного не сходится… Попробуй ещё раз, лапочка 💕', false);
+    shake();
+    alreadyCelebrated = false;
+  }
+}
 
-    function normalize(v){
-      return String(v).trim().replace(/[^\d]/g,''); // оставляем только цифры
-    }
+btn.addEventListener('click', check);
+input.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter') check();
+});
+</script>
 
-    function check(){
-      const v = normalize(input.value);
-      if(!v){
-        show('Впиши число 🙂', false);
-        return;
-      }
-      if(Number(v) === CORRECT_NUMBER){
-        show('✅ Верно!\n\nОтвет: посмотри за телевизором', true);
-      } else {
-        show('❌ Неверно. Попробуй ещё раз.', false);
-      }
-    }
-
-    btn.addEventListener('click', check);
-    input.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter') check();
-    });
-  </script>
 </body>
 </html>
