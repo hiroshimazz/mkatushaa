@@ -9,9 +9,20 @@
 :root{
   --bg1:#0b1020;
   --bg2:#1b0b2f;
-  --accent1:#ff7ab6;
-  --accent2:#78aaff;
-  --text:#ffffff;
+
+  --glass: rgba(255,255,255,.075);
+  --stroke: rgba(255,255,255,.16);
+
+  --text: rgba(255,255,255,.94);
+  --muted: rgba(255,255,255,.72);
+  --soft: rgba(255,255,255,.55);
+
+  --a1:#ff7ab6;
+  --a2:#78aaff;
+  --good:#73ffc6;
+  --bad:#ff7878;
+
+  --shadow: 0 30px 100px rgba(0,0,0,.55);
 }
 
 *{box-sizing:border-box}
@@ -24,247 +35,584 @@ body{
   padding:24px;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color:var(--text);
-  background: linear-gradient(135deg,var(--bg1),var(--bg2));
-  animation: bgPulse 8s ease-in-out infinite alternate;
+
+  background:
+    radial-gradient(1200px 700px at 15% 20%, rgba(255,122,182,.18), transparent 60%),
+    radial-gradient(900px 650px at 85% 35%, rgba(120,170,255,.18), transparent 55%),
+    linear-gradient(135deg,var(--bg1),var(--bg2));
+  animation:bgBreathe 9s ease-in-out infinite alternate;
   overflow:hidden;
 }
 
-@keyframes bgPulse{
+@keyframes bgBreathe{
   from{filter:brightness(1)}
-  to{filter:brightness(1.08)}
+  to{filter:brightness(1.07)}
 }
 
-.wrap{width:min(920px,100%)}
+.wrap{width:min(940px,100%)}
 
 .card{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:30px;
+  position:relative;
+  background:var(--glass);
+  border:1px solid var(--stroke);
+  border-radius:32px;
   padding:34px;
-  backdrop-filter:blur(12px);
-  box-shadow:0 30px 100px rgba(0,0,0,.6);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+
+.card:before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background: radial-gradient(700px 260px at 18% 0%, rgba(255,255,255,.14), transparent 60%);
+  pointer-events:none;
+}
+
+.header{
+  position:relative;
+  z-index:1;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 12px;
+  border:1px solid var(--stroke);
+  border-radius:999px;
+  color:var(--muted);
+  font-size:13px;
+  letter-spacing:.2px;
+  background: rgba(0,0,0,.14);
+}
+
+.dot{
+  width:10px;height:10px;border-radius:50%;
+  background:linear-gradient(135deg,var(--a1),var(--a2));
+  box-shadow:0 0 0 4px rgba(255,122,182,.12);
 }
 
 h1{
-  margin:0 0 16px;
-  font-size:clamp(28px,4vw,40px);
+  margin:10px 0 10px;
+  font-size:clamp(28px,4vw,42px);
+  letter-spacing:-.02em;
 }
 
-.task{
-  margin-top:20px;
-  padding:20px;
-  border-radius:20px;
-  background:rgba(0,0,0,.25);
-  line-height:1.8;
-  white-space:pre-line;
+.lead{
+  margin:0;
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.65;
+  max-width: 68ch;
+}
+
+.section{
+  position:relative;
+  z-index:1;
+  margin-top:22px;
+  display:grid;
+  gap:14px;
+}
+
+.panel{
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  border-radius:22px;
+  padding:18px 18px;
+}
+
+.panelTitle{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:800;
+  letter-spacing:.1px;
+  margin:0 0 10px;
+}
+
+.panelTitle .spark{
+  width:28px;height:28px;border-radius:10px;
+  display:grid;place-items:center;
+  background: linear-gradient(135deg, rgba(255,122,182,.30), rgba(120,170,255,.30));
+  border:1px solid rgba(255,255,255,.16);
+}
+
+.steps{
+  margin:0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:10px;
+}
+
+.step{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  padding:12px 12px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+}
+
+.icon{
+  flex:0 0 auto;
+  width:34px;height:34px;border-radius:14px;
+  display:grid;place-items:center;
+  background: rgba(0,0,0,.18);
+  border:1px solid rgba(255,255,255,.14);
+}
+
+.stepText{
+  color:var(--muted);
+  line-height:1.6;
+  font-size:15px;
+}
+
+.kbd{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.18);
+  color:rgba(255,255,255,.84);
+  font-size:13px;
+  transform: translateY(-1px);
+  white-space:nowrap;
 }
 
 .form{
   display:flex;
   gap:14px;
   flex-wrap:wrap;
-  margin-top:24px;
+  margin-top:6px;
 }
 
-.input{
-  flex:1 1 300px;
-  padding:16px;
+.inputWrap{
+  flex:1 1 320px;
+  padding:14px 14px;
   border-radius:18px;
-  background:rgba(0,0,0,.35);
-  border:1px solid rgba(255,255,255,.2);
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.24);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.inputPrefix{
+  color:rgba(255,255,255,.55);
+  user-select:none;
+  font-weight:700;
 }
 
 input{
   width:100%;
-  background:transparent;
   border:none;
   outline:none;
-  color:white;
-  font-size:17px;
+  background:transparent;
+  color:var(--text);
+  font-size:16px;
+  padding:6px 0;
 }
+
+input::placeholder{color:rgba(255,255,255,.35)}
 
 button{
-  padding:16px 28px;
+  padding:14px 22px;
   border-radius:18px;
   border:none;
-  font-weight:800;
+  font-weight:900;
   cursor:pointer;
-  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  background:linear-gradient(135deg,var(--a1),var(--a2));
   color:#0b1020;
-  box-shadow:0 15px 40px rgba(255,122,182,.4);
-  transition:.25s;
+  box-shadow: 0 16px 42px rgba(120,170,255,.22);
+  transition: transform .18s ease, filter .18s ease;
+  position:relative;
 }
 
-button:hover{transform:translateY(-2px)}
+button:hover{transform:translateY(-2px); filter:brightness(1.03)}
+button:active{transform:translateY(1px)}
 
 button.success{
   animation: glow 1.2s ease-in-out infinite alternate;
 }
 
 @keyframes glow{
-  from{box-shadow:0 0 10px #ff7ab6}
-  to{box-shadow:0 0 30px #78aaff}
+  from{box-shadow:0 0 12px rgba(255,122,182,.35), 0 18px 46px rgba(120,170,255,.25)}
+  to{box-shadow:0 0 26px rgba(120,170,255,.45), 0 22px 60px rgba(255,122,182,.20)}
 }
 
 .msg{
-  margin-top:24px;
-  padding:20px;
-  border-radius:20px;
   display:none;
-  white-space:pre-line;
+  margin-top:16px;
+  padding:18px;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.18);
 }
 
 .msg.ok{
   display:block;
-  background:rgba(115,255,198,.12);
-  border:1px solid rgba(115,255,198,.4);
-  animation: fadeIn 1s ease forwards;
+  border-color: rgba(115,255,198,.40);
+  background: rgba(115,255,198,.10);
 }
 
 .msg.bad{
   display:block;
-  background:rgba(255,120,120,.12);
-  border:1px solid rgba(255,120,120,.4);
+  border-color: rgba(255,120,120,.40);
+  background: rgba(255,120,120,.10);
 }
 
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(15px)}
-  to{opacity:1; transform:translateY(0)}
+/* красивое появление */
+.reveal{
+  animation: reveal .7s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes reveal{
+  from{opacity:0; transform:translateY(12px); filter: blur(2px);}
+  to{opacity:1; transform:translateY(0); filter: blur(0);}
 }
 
+.answerGrid{
+  display:grid;
+  gap:12px;
+}
+
+.answerHeader{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  font-weight:900;
+  font-size:18px;
+}
+
+.pillRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.pill{
+  padding:10px 12px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.18);
+  color:rgba(255,255,255,.90);
+  font-weight:700;
+  letter-spacing:.2px;
+}
+
+.pill strong{
+  color:#ffffff;
+}
+
+.coordBox{
+  padding:14px 14px;
+  border-radius:18px;
+  border:1px dashed rgba(255,255,255,.22);
+  background: rgba(255,255,255,.04);
+}
+
+.coordTitle{
+  color:var(--soft);
+  font-size:13px;
+  margin:0 0 6px;
+}
+
+.coords{
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:.3px;
+  background: linear-gradient(135deg, rgba(255,122,182,.25), rgba(120,170,255,.25));
+  border:1px solid rgba(255,255,255,.14);
+  padding:10px 12px;
+  border-radius:14px;
+  display:inline-block;
+}
+
+.smallNote{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.55;
+}
+
+.hintLine{
+  margin-top:10px;
+  color:rgba(255,255,255,.55);
+  font-size:13px;
+}
+
+.shake{
+  animation: shake .35s ease both;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+
+/* Частицы (сердца + конфетти) */
 .particle{
   position:fixed;
   pointer-events:none;
-  animation: fly 2s ease-out forwards;
+  animation: fly 1.9s ease-out forwards;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+  z-index:9999;
 }
-
 @keyframes fly{
   0%{opacity:1; transform:translate(0,0) scale(1)}
   100%{opacity:0; transform:translate(var(--x),var(--y)) rotate(var(--r)) scale(1.2)}
 }
+.confetti{
+  width:8px;
+  height:8px;
+  border-radius:2px;
+  position:fixed;
+  pointer-events:none;
+  animation: fly 1.9s ease-out forwards;
+  z-index:9999;
+}
 
+@media (prefers-reduced-motion: reduce){
+  body{animation:none}
+  .reveal,.shake,.particle,.confetti{animation:none !important}
+}
 </style>
 </head>
 
 <body>
-
 <div class="wrap">
-<div class="card">
-<h1>💌 Последний шаг</h1>
+  <div class="card" id="card">
+    <div class="header">
+      <div>
+        <div class="badge"><span class="dot"></span> Маленький квест для моей умнички</div>
+        <h1>💌 Финальный шаг</h1>
+        <p class="lead">
+          Ты уже почти у цели. Собери итоговое число по шагам ниже — и просто введи результат.
+        </p>
+      </div>
+    </div>
 
-<div class="task">
-Привет, моя умничка 💖  
-Ты уже почти у цели — осталось совсем немного.
+    <div class="section">
+      <div class="panel">
+        <div class="panelTitle">
+          <span class="spark">✨</span>
+          <span>Что нужно сделать</span>
+        </div>
 
-Возьми свой пароль от телефона и умножь его на пароль от моего телефона.  
-Теперь вспомни год нашего знакомства и снова умножь получившееся число.  
+        <ul class="steps">
+          <li class="step">
+            <div class="icon">📱</div>
+            <div class="stepText">
+              Возьми <span class="kbd">свой пароль</span> от телефона и умножь его на <span class="kbd">мой пароль</span>.
+            </div>
+          </li>
+          <li class="step">
+            <div class="icon">📅</div>
+            <div class="stepText">
+              Вспомни год, когда мы познакомились, и умножь на него получившееся число.
+            </div>
+          </li>
+          <li class="step">
+            <div class="icon">💬</div>
+            <div class="stepText">
+              Затем умножь результат на то, сколько раз ты писала мне «<span class="kbd">Витюшкинс</span>» в Telegram 🥰
+            </div>
+          </li>
+          <li class="step">
+            <div class="icon">💞</div>
+            <div class="stepText">
+              Теперь умножь всё на <span class="kbd">день месяца</span>, когда мы начали встречаться.
+            </div>
+          </li>
+          <li class="step">
+            <div class="icon">🧩</div>
+            <div class="stepText">
+              Финальный штрих: умножь результат на <span class="kbd">4</span> и прибавь <span class="kbd">659877329306094</span>.
+            </div>
+          </li>
+        </ul>
 
-После этого умножь результат на то, сколько раз ты писала «Витюшкинс» в Telegram 🥰  
+        <div class="hintLine">
+          Подсказка: вводи только цифры (можно вставить число целиком).
+        </div>
+      </div>
 
-Дальше — умножь всё на день, когда мы начали встречаться 💞  
+      <div class="panel">
+        <div class="panelTitle">
+          <span class="spark">📝</span>
+          <span>Введи результат</span>
+        </div>
 
-И финальный штрих: умножь результат на 4 и прибавь 659877329306094.
+        <div class="form">
+          <div class="inputWrap" id="inputWrap">
+            <span class="inputPrefix">#</span>
+            <input id="code" inputmode="numeric" autocomplete="off" placeholder="Например: 123456…" />
+          </div>
+          <button id="check" type="button">Проверить</button>
+        </div>
 
-Получившееся число введи ниже и нажми «Проверить» ✨
-</div>
-
-<div class="form">
-<div class="input" id="inputWrap">
-<input id="code" placeholder="Введи финальное число…" />
-</div>
-<button id="check">Проверить</button>
-</div>
-
-<div id="msg" class="msg"></div>
-</div>
+        <div id="msg" class="msg"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-const CORRECT_NUMBER="4944099632065710";
-const input=document.getElementById("code");
-const btn=document.getElementById("check");
-const msg=document.getElementById("msg");
+const CORRECT_NUMBER = "4944099632065710";
 
-function onlyDigits(v){return String(v).trim().replace(/[^\d]/g,'')}
+const input = document.getElementById('code');
+const btn = document.getElementById('check');
+const msg = document.getElementById('msg');
+const inputWrap = document.getElementById('inputWrap');
 
-function show(text,ok){
-  msg.className='msg '+(ok?'ok':'bad');
-  msg.textContent=text;
+function onlyDigits(v){
+  return String(v).trim().replace(/[^\d]/g,'');
 }
 
-function explode(x,y){
-  const hearts=["💖","💕","💘","💗","❤️","💝"];
-  const colors=["#ff7ab6","#78aaff","#ffd166","#7bd389","#ff6b6b","#c084fc"];
+function shake(){
+  inputWrap.classList.remove('shake');
+  void inputWrap.offsetWidth;
+  inputWrap.classList.add('shake');
+}
 
-  for(let i=0;i<30;i++){
-    const h=document.createElement("div");
-    h.className="particle";
-    h.textContent=hearts[Math.floor(Math.random()*hearts.length)];
-    h.style.left=x+"px";
-    h.style.top=y+"px";
-    h.style.setProperty("--x",(Math.random()*500-250)+"px");
-    h.style.setProperty("--y",(-Math.random()*500-150)+"px");
-    h.style.setProperty("--r",(Math.random()*360)+"deg");
-    h.style.fontSize=(18+Math.random()*20)+"px";
+function setMessage(html, ok){
+  msg.className = 'msg ' + (ok ? 'ok reveal' : 'bad reveal');
+  msg.innerHTML = html;
+}
+
+function explodeFrom(el, heartCount=22, confettiCount=34){
+  const rect = el.getBoundingClientRect();
+  const x = rect.left + rect.width/2;
+  const y = rect.top + rect.height/2;
+
+  const hearts = ["💖","💕","💘","💗","❤️","💝"];
+  const colors = ["#ff7ab6","#78aaff","#ffd166","#7bd389","#ff6b6b","#c084fc","#34d399","#f472b6"];
+
+  for(let i=0;i<heartCount;i++){
+    const h = document.createElement('div');
+    h.className = 'particle';
+    h.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+    h.style.left = x + 'px';
+    h.style.top  = y + 'px';
+    h.style.setProperty('--x', (Math.random()*520 - 260) + 'px');
+    h.style.setProperty('--y', (-Math.random()*520 - 120) + 'px');
+    h.style.setProperty('--r', (Math.random()*360) + 'deg');
+    h.style.fontSize = (16 + Math.random()*20) + 'px';
+    h.style.animationDuration = (1.55 + Math.random()*0.75) + 's';
     document.body.appendChild(h);
-    setTimeout(()=>h.remove(),2000);
+    setTimeout(() => h.remove(), 2300);
   }
 
-  for(let i=0;i<40;i++){
-    const c=document.createElement("div");
-    c.className="particle";
-    c.style.background=colors[Math.floor(Math.random()*colors.length)];
-    c.style.width="8px";
-    c.style.height="8px";
-    c.style.borderRadius="2px";
-    c.style.left=x+"px";
-    c.style.top=y+"px";
-    c.style.setProperty("--x",(Math.random()*600-300)+"px");
-    c.style.setProperty("--y",(-Math.random()*600-200)+"px");
-    c.style.setProperty("--r",(Math.random()*360)+"deg");
+  for(let i=0;i<confettiCount;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = x + 'px';
+    c.style.top  = y + 'px';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.setProperty('--x', (Math.random()*650 - 325) + 'px');
+    c.style.setProperty('--y', (-Math.random()*650 - 160) + 'px');
+    c.style.setProperty('--r', (Math.random()*360) + 'deg');
+    c.style.animationDuration = (1.45 + Math.random()*0.85) + 's';
     document.body.appendChild(c);
-    setTimeout(()=>c.remove(),2000);
+    setTimeout(() => c.remove(), 2300);
   }
 }
 
-function cascadeHearts(){
-  for(let i=0;i<40;i++){
-    setTimeout(()=>{
-      explode(Math.random()*window.innerWidth, window.innerHeight-50);
-    },i*60);
+function cascadeHearts(waves=3){
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  for(let wave=0; wave<waves; wave++){
+    for(let i=0;i<10;i++){
+      setTimeout(() => {
+        const dummy = { getBoundingClientRect: () => ({
+          left: Math.random() * w,
+          top:  h - 30,
+          width: 0,
+          height: 0
+        })};
+        explodeFrom(dummy, 10, 12);
+      }, wave*450 + i*70);
+    }
   }
 }
+
+let celebrated = false;
 
 function check(){
-  const v=onlyDigits(input.value);
-  if(!v){show("Введи число 💕",false);return;}
-  if(v===CORRECT_NUMBER){
-    show(`💖 Ты большая умничка и всё посчитала правильно!
+  const v = onlyDigits(input.value);
 
-49.440996, 32.065710 📍
+  if(!v){
+    setMessage('Впиши число 😊', false);
+    shake();
+    celebrated = false;
+    btn.classList.remove('success');
+    return;
+  }
 
-Я уверен, ты понимаешь, что это за координаты и куда их нужно ввести 😉
+  if(v === CORRECT_NUMBER){
+    // аккуратный, “не блокнотный” финальный блок
+    setMessage(`
+      <div class="answerGrid">
+        <div class="answerHeader">💖 Ты большая умничка — всё посчитала правильно!</div>
 
-Следующий конверт находится за телевизором 📺💌  
-Ты у меня самая лучшая ❤️`,true);
+        <div class="pillRow">
+          <div class="pill">Правильный ответ: <strong>4944099632065710</strong></div>
+        </div>
 
-    const rectBtn=btn.getBoundingClientRect();
-    explode(rectBtn.left+rectBtn.width/2,rectBtn.top+rectBtn.height/2);
+        <div class="coordBox">
+          <div class="coordTitle">А теперь маленький намёк 😉</div>
+          <div class="coords">49.440996, 32.065710 📍</div>
+          <div class="smallNote" style="margin-top:10px;">
+            Тебе эти цифры ни о чём не говорят? А если посмотреть на них вот так — кажется, ты понимаешь,
+            что это такое и куда это нужно вставлять ✨
+          </div>
+        </div>
 
-    const rectInput=input.getBoundingClientRect();
-    setTimeout(()=>explode(rectInput.left+rectInput.width/2,rectInput.top+rectInput.height/2),300);
+        <div class="panel" style="padding:14px; margin:0; border-radius:18px;">
+          <div style="font-weight:900; margin-bottom:6px;">📺 Следующий конверт</div>
+          <div class="smallNote" style="margin:0;">
+            Он находится <strong>за телевизором</strong> 💌<br/>
+            Ты у меня самая лучшая ❤️
+          </div>
+        </div>
+      </div>
+    `, true);
 
-    setTimeout(cascadeHearts,600);
+    btn.classList.add('success');
 
-    btn.classList.add("success");
-  }else{
-    show("❌ Почти… попробуй ещё раз, моя лапочка 💕",false);
+    if(!celebrated){
+      celebrated = true;
+      // кнопка
+      explodeFrom(btn, 26, 40);
+      // поле
+      setTimeout(()=>explodeFrom(inputWrap, 18, 26), 280);
+      // каскад
+      setTimeout(()=>cascadeHearts(3), 650);
+      // ещё одна нежная волна
+      setTimeout(()=>explodeFrom(btn, 14, 18), 1050);
+    }
+  } else {
+    setMessage('❌ Немного не сходится… Попробуй ещё раз, лапочка 💕', false);
+    shake();
+    celebrated = false;
+    btn.classList.remove('success');
   }
 }
 
-btn.addEventListener("click",check);
-input.addEventListener("keydown",e=>{if(e.key==="Enter")check();});
+btn.addEventListener('click', check);
+input.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter') check();
+});
 </script>
-
 </body>
 </html>
